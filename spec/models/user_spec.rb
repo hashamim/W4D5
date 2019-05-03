@@ -23,7 +23,26 @@ RSpec.describe User, type: :model do
         end
 
     end
+    describe "#ensure_session_token" do
+        it "calls generate_session_token if session_token is nil" do
+        end
+        it "does not calls generate_session_token if session_token exists" do
+        end
+         it "calls ensure_session_token on initialize" do
+        end
+    end
 
+    describe "#password=" do
+    let!(:user) {create(:user)}
+        it "saves password_digest to database" do  
+            expect(user.password_digest).to_not be_nil
+        end
+        it "encrypts password in password_digest" do
+            
+            expect(user.password_digest).to_not eq(user.password)
+        end
+        
+    end
 
     describe "::find_by_credentials" do
         let!(:user) {create(:user)}
@@ -32,23 +51,29 @@ RSpec.describe User, type: :model do
         end
         context "when password does not match" do
             it "returns nil" do
+                expect(User.find_by_credentials(user.username,"adfsd")).to eq(" ")
             end
         end
+
         context "when username does not exist" do
             it "returns nil" do
             end
         end
     end
+    
     describe "#is_password?" do
         it "returns true if password is user's password" do
         end
         it "returns false if password is not user's password" do
         end
     end
+
     describe "::generate_session_token" do
         it "creates new session token" do
+            expect(User.generate_session_token).to_not be_nil
         end
     end
+
     describe "#reset_session_token" do
         it "calls generate_session_token" do
         end
@@ -56,18 +81,6 @@ RSpec.describe User, type: :model do
         end
     end
 
-    describe "#ensure_session_token" do
-        it "calls generate_session_token if session_token is nil" do
-        end
-        it "does not calls generate_session_token if session_token exists" do
-        end
-         it "calls generate_session_token on initialize" do
-        end
-    end
-    describe "#password=" do
-        it "encrypts password in password_digest" do
-        end
-        it "saves password_digest to database" do
-        end
-    end
+
+    
 end
